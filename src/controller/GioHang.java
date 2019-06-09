@@ -112,9 +112,9 @@ public class GioHang extends HttpServlet {
 			i++;
 		}
 
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
-		String address = request.getParameter("address");
+		String name = StringEscapeUtils.escapeHtml(request.getParameter("name"));
+		String phone = StringEscapeUtils.escapeHtml(request.getParameter("phone"));
+		String address = StringEscapeUtils.escapeHtml(request.getParameter("address"));
 
 		order.setPersonName(name);
 		order.setPersonPhone(phone);

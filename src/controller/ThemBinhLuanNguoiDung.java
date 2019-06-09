@@ -22,8 +22,8 @@ public class ThemBinhLuanNguoiDung extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Product product = new Product(Integer.parseInt(request.getParameter("productId")));
 		
-		String content = request.getParameter("comment");
-		String name = request.getParameter("name");
+		String content = StringEscapeUtils.escapeHtml(request.getParameter("comment"));
+		String name = StringEscapeUtils.escapeHtml(request.getParameter("name"));
 		String answerCommentId = request.getParameter("answerCommentId");
 		
 		Comment comment = new Comment();
