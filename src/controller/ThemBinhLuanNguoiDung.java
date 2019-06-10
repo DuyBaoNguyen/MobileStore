@@ -14,34 +14,39 @@ import model.Product;
 @WebServlet("/ThemBinhLuanNguoiDung")
 public class ThemBinhLuanNguoiDung extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-     
-    public ThemBinhLuanNguoiDung() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Product product = new Product(Integer.parseInt(request.getParameter("productId")));
-		
-		String content = StringEscapeUtils.escapeHtml(request.getParameter("comment"));
-		String name = StringEscapeUtils.escapeHtml(request.getParameter("name"));
-		String answerCommentId = request.getParameter("answerCommentId");
-		
-		Comment comment = new Comment();
-		comment.setContent(content);
-		comment.setPersonName(name);
-		if (request.getParameter("sex").equals("male")) {
-			comment.setPersonSex(true);
-		} else {
-			comment.setPersonSex(false);
+	public ThemBinhLuanNguoiDung() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Product product = new Product(Integer.parseInt(request.getParameter("productId")));
+
+			String content = StringEscapeUtils.escapeHtml(request.getParameter("comment"));
+			String name = StringEscapeUtils.escapeHtml(request.getParameter("name"));
+			String answerCommentId = request.getParameter("answerCommentId");
+
+			Comment comment = new Comment();
+			comment.setContent(content);
+			comment.setPersonName(name);
+			if (request.getParameter("sex").equals("male")) {
+				comment.setPersonSex(true);
+			} else {
+				comment.setPersonSex(false);
+			}
+			if (answerCommentId != null) {
+				comment.setAnswerComment(new Comment(Integer.parseInt(answerCommentId)));
+			} else {
+				comment.setAnswerComment(null);
+			}
+			comment.setProduct(product);
+
+			CommentDAO.insertComment(comment);
+			response.sendRedirect(request.getContextPath() + "/ThongTinSanPham?productId=" + product.getId());
+		} catch (Exception e) {
+			response.sendRedirect(request.getContextPath() + "/TrangChu");
 		}
-		if (answerCommentId != null) {
-			comment.setAnswerComment(new Comment(Integer.parseInt(answerCommentId)));
-		} else {
-			comment.setAnswerComment(null);
-		}
-		comment.setProduct(product);
-		
-		CommentDAO.insertComment(comment);
-		response.sendRedirect(request.getContextPath() + "/ThongTinSanPham?productId=" + product.getId());
 	}
 }

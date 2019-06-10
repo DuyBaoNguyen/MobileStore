@@ -28,10 +28,15 @@ public class SanPham extends HttpServlet {
 
 		String manufId = request.getParameter("manufId");
 		Manufacturer manuf = new Manufacturer();
-		if (manufId == null) {
-			manuf.setId(-1);
-		} else {
-			manuf.setId(Integer.parseInt(manufId));
+		try {
+			if (manufId == null) {
+				manuf.setId(-1);
+			} else {
+				manuf.setId(Integer.parseInt(manufId));
+			}
+		} catch (NumberFormatException e) {
+			response.sendRedirect(request.getContextPath() + "/TrangChu");
+			return;
 		}
 		ManufacturerDAO.getManuf(manuf);
 

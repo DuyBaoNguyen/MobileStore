@@ -27,8 +27,16 @@ public class XoaSanPhamTrongGioHang extends HttpServlet {
 				return;
 			}
 			
+			int id;
+			try {
+				id = Integer.parseInt(productId);
+			} catch (NumberFormatException e) {
+				response.sendRedirect(request.getContextPath() + "/TrangChu");
+				return;
+			}
+			
 			for (OrderDetail item : order.getOrderDetails()) {
-				if (item.getProduct().getId() == Integer.parseInt(productId)) {
+				if (item.getProduct().getId() == id) {
 					order.getOrderDetails().remove(item);
 					
 					int value = 0;

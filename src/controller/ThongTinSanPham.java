@@ -19,16 +19,24 @@ import model.Product;
 @WebServlet("/ThongTinSanPham")
 public class ThongTinSanPham extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      
-    public ThongTinSanPham() {
-        super();
-    }
+
+	public ThongTinSanPham() {
+		super();
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Manufacturer> manufs = ManufacturerDAO.getManufs();
 		request.setAttribute("manufs", manufs);
 		
-		Product product = new Product(Integer.parseInt(request.getParameter("productId")));
+		int id;
+		try {
+			id = Integer.parseInt(request.getParameter("productId"));
+		} catch (NumberFormatException e) {
+			response.sendRedirect(request.getContextPath() + "/TrangChu");
+			return;
+		}
+		
+		Product product = new Product(id);
 		ProductDAO.getProduct(product);
 		request.setAttribute("product", product);
 		

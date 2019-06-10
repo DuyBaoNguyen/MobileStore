@@ -17,23 +17,33 @@ import model.Product;
 @WebServlet("/SoSanh")
 public class SoSanh extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public SoSanh() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public SoSanh() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int id1, id2;
+		try {
+			id1 = Integer.parseInt(request.getParameter("product1Id"));
+			id2 = Integer.parseInt(request.getParameter("product2Id"));
+		} catch (NumberFormatException e) {
+			response.sendRedirect(request.getContextPath() + "/TrangChu");
+			return;
+		}
+
 		List<Manufacturer> manufs = ManufacturerDAO.getManufs();
 		request.setAttribute("manufs", manufs);
-		
-		Product product1 = new Product(Integer.parseInt(request.getParameter("product1Id")));
+
+		Product product1 = new Product(id1);
 		ProductDAO.getProduct(product1);
 		request.setAttribute("product1", product1);
-		
-		Product product2 = new Product(Integer.parseInt(request.getParameter("product2Id")));
+
+		Product product2 = new Product(id2);
 		ProductDAO.getProduct(product2);
 		request.setAttribute("product2", product2);
-		
+
 		request.getRequestDispatcher("/WEB-INF/SoSanh.jsp").forward(request, response);
 	}
 }
