@@ -241,7 +241,6 @@
 	                            <p>${comment.content}</p>
 	                            <button class="answer-btn" id="${comment.id}" onclick="answer(this)">Trả lời</button>
 	                            
-	                            <!-- Nested media object -->
 	                            <c:forEach var="comment1" items="${comment.comments}">
 		                            <div class="media">
 		                                <div class="media-left">

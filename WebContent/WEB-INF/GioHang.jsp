@@ -180,8 +180,7 @@
         }
 
         function changeValueOfCart() {
-//             var sum = document.getElementById("sum");
-//             sum.innerHTML = "<strong>1000<strong>";
+
         }
     </script>
 </body>
